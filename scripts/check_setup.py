@@ -38,7 +38,9 @@ def check_chat_model() -> None:
         print("  skipped: GOOGLE_API_KEY is not set")
         return
     reply = get_chat_model().invoke("Reply with exactly one word: ready")
-    print(f"  model replied: {reply.content!r}")
+    # Newer models (e.g. Gemini 3.x) return content as a list of blocks
+    # (text plus a hidden "thought signature"). `.text` joins just the text parts.
+    print(f"  model replied: {reply.text!r}")
     if os.getenv("LANGSMITH_TRACING", "").lower() == "true":
         print(f"  check the trace in LangSmith project '{os.getenv('LANGSMITH_PROJECT')}'")
 

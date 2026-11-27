@@ -47,9 +47,11 @@ def get_chat_model():
     The rate limiter and retries below work the same for every provider.
     """
     model_name = os.getenv("CHAT_MODEL") or DEFAULT_CHAT_MODEL
+    # No `temperature` here: Gemini 3.x models use fixed sampling settings and
+    # ignore it (with a warning). If you switch to Groq/Ollama, consider adding
+    # temperature=0 for more repeatable classification.
     return init_chat_model(
         model_name,
-        temperature=0,              # deterministic answers suit classification
         rate_limiter=_rate_limiter, # wait before sending if we're going too fast
         max_retries=3,              # retry transient errors (e.g. 429) with exponential backoff
         timeout=60,                 # seconds; don't hang forever on a stuck request
