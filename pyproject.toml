@@ -1,0 +1,46 @@
+[project]
+name = "support-triage-agent"
+version = "0.1.0"
+description = "Triage customer support messages with LangChain, LangGraph and LangSmith."
+readme = "README.md"
+requires-python = ">=3.11"
+license = "MIT"
+dependencies = [
+    # Core LangChain 1.x + LangGraph 1.x
+    "langchain>=1.0",
+    "langgraph>=1.0",
+    # Provider integrations
+    "langchain-google-genai",   # Gemini chat models
+    "langchain-huggingface",    # local HuggingFaceEmbeddings
+    "langchain-chroma",         # current Chroma vector store integration
+    "sentence-transformers",    # runs the embedding model locally
+    # Tracing and evaluation
+    "langsmith",
+    # Data
+    "datasets",
+    "huggingface_hub",
+    "pandas",
+    # API
+    "fastapi",
+    "uvicorn",
+    # Utilities
+    "python-dotenv",
+]
+
+# Note: torch (a sentence-transformers dependency) is installed separately
+# from the CPU-only index to avoid the multi-GB CUDA build. See README.
+
+[project.optional-dependencies]
+dev = ["pytest"]
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+# "src layout": the package lives in src/triage
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
