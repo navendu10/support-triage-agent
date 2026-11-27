@@ -218,3 +218,8 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Project: downloaded datasets (re-created by scripts/check_setup.py)
+data/raw/
+# Local Chroma vector store files
+chroma_db/
